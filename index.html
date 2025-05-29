@@ -4,37 +4,188 @@
     <meta charset="UTF-8">
     <title>Pirmas įrašas</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Verdana, Geneva, Tahoma, sans-serif;
+            background: linear-gradient(135deg, #f3f3f3 0%, #e0e7ff 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto 0 auto;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+            padding: 32px;
+        }
+        .datetime-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 1.5em;
+            font-size: 1.25em;
+            margin-bottom: 18px;
+        }
+        #date {
+            padding: 6px 18px;
+            border-radius: 24px;
+            background: #e0e7ff;
+            color: #2b2b2b;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: none;
+            font-size: inherit;
+            outline: none;
+        }
+        #date:active, #date:focus {
+            background: #c7d2fe;
+        }
+        #clock {
+            color: #5964e0;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        h1 {
+            color: #363c60;
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-size: 2em;
+            text-align: center;
+        }
+        .image-container {
+            display: flex;
+            justify-content: center;
+            margin: 18px 0 12px 0;
+        }
+        .image-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px #b8b8ff44;
+        }
+        pre {
+            background: #282c34;
+            color: #eaf7ff;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            margin-top: 24px;
+            box-shadow: 0 4px 16px #2b2b2b10;
+        }
+        code.language-python {
+            font-family: 'Fira Mono', 'Consolas', monospace;
+        }
+        /* Date picker styles */
+        #datePicker {
+            display: none;
+            position: absolute;
+            z-index: 10;
+            left: 0;
+            top: 0;
+        }
+        @media (max-width: 700px) {
+            .container {
+                padding: 12px;
+            }
+            .datetime-container {
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="datetime-container">
-        <span id="date"></span>
-        <span id="clock"></span>
-    </div>
-    <h1>Mano pirmasis įrašas!</h1>
-    <div class="image-container">
-        <img src="image/example.png" alt="Paveikslėlis">
-    </div>
-    <pre>
+    <div class="container">
+        <div class="datetime-container">
+            <span id="date" tabindex="0" title="Pasirink datą"></span>
+            <input type="date" id="datePicker">
+            <span id="clock"></span>
+        </div>
+        <h1>Mano pirmasis įrašas!</h1>
+        <div class="image-container">
+            <img src="image/example.png" alt="Paveikslėlis">
+        </div>
+        <pre>
 <code class="language-python">
 def hello():
     print("Sveikas, pasauli!")
 </code>
-    </pre>
+        </pre>
+    </div>
     <script>
-        function updateClockDate() {
-            const now = new Date();
-            // Data formatuojama: 2025-05-27
-            const date = now.toLocaleDateString('lt-LT', {
+        const dateSpan = document.getElementById('date');
+        const datePicker = document.getElementById('datePicker');
+        const clockSpan = document.getElementById('clock');
+
+        // Helper to format date (YYYY-MM-DD to LT format)
+        function formatDateLT(dateObj) {
+            return dateObj.toLocaleDateString('lt-LT', {
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit'
             });
-            // Laikas: 14:05:09
-            const time = now.toLocaleTimeString('lt-LT');
-            document.getElementById('date').textContent = date;
-            document.getElementById('clock').textContent = time;
         }
+
+        // Helper to pad numbers
+        function pad(n) {
+            return n < 10 ? '0' + n : '' + n;
+        }
+
+        // Set initial date to today
+        let selectedDate = new Date();
+
+        function updateClockDate() {
+            // Show selected date
+            dateSpan.textContent = formatDateLT(selectedDate);
+            // Show current time
+            const now = new Date();
+            const time = now.toLocaleTimeString('lt-LT');
+            clockSpan.textContent = time;
+        }
+
+        // Keep the clock ticking
         setInterval(updateClockDate, 1000);
+
+        // Show date picker when clicking date
+        dateSpan.addEventListener('click', (e) => {
+            // Position datePicker under dateSpan
+            const rect = dateSpan.getBoundingClientRect();
+            datePicker.style.display = 'block';
+            datePicker.style.left = rect.left + 'px';
+            datePicker.style.top = (rect.bottom + window.scrollY + 2) + 'px';
+            // Set datePicker value to current selected date
+            datePicker.value = [
+                selectedDate.getFullYear(),
+                pad(selectedDate.getMonth() + 1),
+                pad(selectedDate.getDate())
+            ].join('-');
+            datePicker.focus();
+        });
+
+        // Also allow keyboard access (enter/space)
+        dateSpan.addEventListener('keydown', (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                dateSpan.click();
+            }
+        });
+
+        // When date selected, update date
+        datePicker.addEventListener('change', function() {
+            if (this.value) {
+                const [year, month, day] = this.value.split('-');
+                selectedDate = new Date(year, month - 1, day);
+                updateClockDate();
+            }
+            datePicker.style.display = 'none';
+        });
+
+        // Hide date picker if focus out
+        datePicker.addEventListener('blur', function() {
+            setTimeout(() => datePicker.style.display = 'none', 150);
+        });
+
+        // Initial render
         updateClockDate();
     </script>
 </body>
