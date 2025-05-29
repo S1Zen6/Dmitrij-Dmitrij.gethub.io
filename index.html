@@ -6,17 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Tik labai specifiniai arba dinaminiai stiliai */
         #datePicker {
             display: none;
             position: absolute;
             z-index: 10;
         }
+        /* Fade-out transition animacija */
+        .fade-out {
+            opacity: 0;
+            transition: opacity 0.6s cubic-bezier(.4,0,.2,1);
+        }
+        .goto-newpage-btn {
+            background: linear-gradient(90deg, #5964e0 60%, #7e9fff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 22px;
+            padding: 8px 28px;
+            font-size: 1.02em;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: auto;
+            box-shadow: 0 2px 8px #a0a5e733;
+            transition: background 0.2s, transform 0.13s;
+        }
+        .goto-newpage-btn:hover, .goto-newpage-btn:focus {
+            background: linear-gradient(90deg, #42538e 60%, #5964e0 100%);
+            transform: scale(1.04);
+        }
+        .main-header {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        @media (max-width: 700px) {
+            .main-header {
+                gap: 4px;
+            }
+            .goto-newpage-btn {
+                width: 100%;
+                margin-left: 0;
+                margin-bottom: 6px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="main-content">
         <header class="main-header">
+            <button class="goto-newpage-btn" id="gotoNewPage">Eiti į naują puslapį</button>
             <div class="today-section">
                 <span id="today-label">Šiandienos data:</span>
                 <span id="today-date"></span>
@@ -58,12 +95,20 @@ def hello():
         <span>© <span id="footer-year"></span> Debesų kompiuterijos pavyzdys</span>
     </footer>
     <script>
+        // Puslapio perėjimo (fade) funkcija
+        document.getElementById('gotoNewPage').addEventListener('click', function() {
+            const container = document.getElementById('main-content');
+            container.classList.add('fade-out');
+            setTimeout(function() {
+                window.location.href = "new-page.html";
+            }, 650); // turi būti daugiau nei CSS transition laikas
+        });
+
         // Data ir laikrodis
         const dateSpan = document.getElementById('date');
         const datePicker = document.getElementById('datePicker');
         const clockSpan = document.getElementById('clock');
 
-        // Datų formatavimas (YYYY-MM-DD -> LT)
         function formatDateLT(dateObj) {
             return dateObj.toLocaleDateString('lt-LT', {
                 year: 'numeric',
@@ -75,7 +120,6 @@ def hello():
             return n < 10 ? '0' + n : '' + n;
         }
 
-        // Datos pasirinkėjas (keičiasi tik šalia laikrodžio)
         let selectedDate = new Date();
         function updateClockDate() {
             dateSpan.textContent = formatDateLT(selectedDate);
