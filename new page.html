@@ -1,16 +1,46 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="lt">
 <head>
     <meta charset="UTF-8">
     <title>Naujas puslapis</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        /* Modernus gradientinis fonas */
         body {
             min-height: 100vh;
             margin: 0;
             font-family: 'Segoe UI', Verdana, Geneva, Tahoma, sans-serif;
             background: linear-gradient(120deg, #e0e7ff 0%, #f7f8fa 60%, #fcf4f9 100%);
+        }
+        nav {
+            background: linear-gradient(90deg, #5964e0 60%, #7e9fff 100%);
+            box-shadow: 0 2px 12px #b8b8ff22;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0 0 0 12px;
+            display: flex;
+            gap: 18px;
+            height: 56px;
+            align-items: center;
+        }
+        nav li {
+            display: inline-block;
+        }
+        nav a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.11em;
+            letter-spacing: 0.02em;
+            padding: 10px 20px;
+            border-radius: 18px;
+            transition: background 0.18s, color 0.16s;
+        }
+        nav a.active, nav a:hover, nav a:focus {
+            background: #fff;
+            color: #5964e0;
         }
         .container {
             max-width: 540px;
@@ -133,24 +163,28 @@
             padding-bottom: 20px;
             letter-spacing: 1px;
         }
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px 2vw 16px 2vw;
-                max-width: 98vw;
+        @media (max-width: 700px) {
+            nav ul {
+                flex-direction: column;
+                gap: 4px;
+                padding: 6px 0 6px 0;
+                height: auto;
             }
-            .card {
-                padding: 16px 4vw 14px 4vw;
-            }
-            .fancy-btn {
-                width: 100%;
-                padding-left: 16px;
-                padding-right: 20px;
-                font-size: 1em;
-            }
+            nav a { font-size: 1em; padding: 9px 14px; }
+            .container { padding: 10px 2vw 16px 2vw; max-width: 98vw; }
+            .card { padding: 16px 4vw 14px 4vw; }
+            .fancy-btn { width: 100%; padding-left: 16px; padding-right: 20px; font-size: 1em; }
         }
     </style>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Pagrindinis</a></li>
+            <li><a href="new page.html" class="active">Naujas puslapis</a></li>
+            <li><a href="apie.html">Apie projektą</a></li>
+        </ul>
+    </nav>
     <div class="container" id="newpage-content">
         <button class="fancy-btn" id="backToIndex">
             <span class="btn-icon">←</span>
@@ -162,9 +196,9 @@
             <p>Čia galite pridėti savo idėjas ar turinį.</p>
         </div>
         <div class="card">
-            <div class="card-title"><span class="cloud-emoji">☁️</span> Debesų idėja</div>
+            <div class="card-title"><span class="cloud-emoji">🌟</span> Įkvėpimas</div>
             <div>
-                Debesų paslaugos suteikia lankstumą ir greitį. Naudok jas savo projektams ir pasieksi daugiau!
+                Nebijok keisti ir tobulinti – kiekvienas žingsnis į priekį kuria tavo asmeninę istoriją!
             </div>
         </div>
         <blockquote class="quote-block" id="quote-block"></blockquote>
