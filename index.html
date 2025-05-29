@@ -1,13 +1,41 @@
-title: "Pirmas įrašas"
-date: 2025-05-27
-draft: false
----
-
-Mano pirmasis įrašas!
-
-![Paveikslėlis]<img src="image/example.png">
-
-```python
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <title>Pirmas įrašas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="datetime-container">
+        <span id="date"></span>
+        <span id="clock"></span>
+    </div>
+    <h1>Mano pirmasis įrašas!</h1>
+    <div class="image-container">
+        <img src="image/example.png" alt="Paveikslėlis">
+    </div>
+    <pre>
+<code class="language-python">
 def hello():
     print("Sveikas, pasauli!")
-```
+</code>
+    </pre>
+    <script>
+        function updateClockDate() {
+            const now = new Date();
+            // Data formatuojama: 2025-05-27
+            const date = now.toLocaleDateString('lt-LT', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+            // Laikas: 14:05:09
+            const time = now.toLocaleTimeString('lt-LT');
+            document.getElementById('date').textContent = date;
+            document.getElementById('clock').textContent = time;
+        }
+        setInterval(updateClockDate, 1000);
+        updateClockDate();
+    </script>
+</body>
+</html>
