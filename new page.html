@@ -1,98 +1,192 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="lt">
 <head>
     <meta charset="UTF-8">
     <title>Naujas puslapis</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css">
     <style>
-        .fade-in {
-            animation: fadeIn 0.8s cubic-bezier(.4,0,.2,1);
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
-        .back-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(90deg, #5964e0 60%, #7e9fff 100%);
-            color: #fff;
-            border: none;
-            border-radius: 32px;
-            padding: 12px 30px 12px 22px;
-            font-size: 1.09em;
-            cursor: pointer;
-            font-weight: 600;
-            margin-bottom: 32px;
-            margin-top: 18px;
-            box-shadow: 0 2px 8px #a0a5e744;
-            transition: background 0.2s, transform 0.13s;
-            outline: none;
-            letter-spacing: 0.04em;
-        }
-        .back-btn:hover, .back-btn:focus {
-            background: linear-gradient(90deg, #42538e 60%, #5964e0 100%);
-            transform: scale(1.045);
-        }
-        .back-btn .btn-icon {
-            font-size: 1.19em;
-            filter: drop-shadow(0 1px 6px #6b8aff88);
-            transition: transform 0.18s cubic-bezier(.4,0,.2,1);
-        }
-        .back-btn:hover .btn-icon,
-        .back-btn:focus .btn-icon {
-            transform: translateX(-5px) scale(1.14) rotate(-10deg);
+        /* Modernus gradientinis fonas */
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Verdana, Geneva, Tahoma, sans-serif;
+            background: linear-gradient(120deg, #e0e7ff 0%, #f7f8fa 60%, #fcf4f9 100%);
         }
         .container {
-            max-width: 550px;
-            margin: 50px auto 0 auto;
+            max-width: 540px;
+            margin: 65px auto 0 auto;
             background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.11);
-            padding: 34px 26px 22px 26px;
+            border-radius: 28px;
+            box-shadow: 0 12px 38px 0 rgba(89,100,224,0.12), 0 2px 8px #a0a5e733;
+            padding: 34px 26px 27px 26px;
             text-align: center;
+            animation: fadeIn 1s cubic-bezier(.4,0,.2,1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(24px);}
+            to   { opacity: 1; transform: translateY(0);}
         }
         h1 {
-            color: #363c60;
+            color: #42538e;
             margin-top: 0;
-            margin-bottom: 16px;
-            font-size: 2em;
+            margin-bottom: 18px;
+            font-size: 2.1em;
             letter-spacing: 1px;
         }
         .info-text {
-            color: #42538e;
+            color: #5b6a96;
             font-size: 1.13em;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
-        @media (max-width: 700px) {
+        .fancy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(90deg, #7e9fff 10%, #5964e0 100%);
+            color: #fff;
+            border: none;
+            border-radius: 32px;
+            padding: 13px 34px 13px 26px;
+            font-size: 1.10em;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 22px;
+            margin-top: 8px;
+            box-shadow: 0 4px 24px 0 rgba(89,100,224,0.13), 0 2px 8px #a0a5e733;
+            transition: 
+                background 0.22s cubic-bezier(.4,0,.2,1),
+                box-shadow 0.18s cubic-bezier(.4,0,.2,1),
+                transform 0.11s cubic-bezier(.4,0,.2,1);
+            text-align: left;
+            outline: none;
+            border: 1.5px solid #e0e7ff55;
+            letter-spacing: 0.04em;
+            position: relative;
+            overflow: hidden;
+        }
+        .fancy-btn:before {
+            content: '';
+            position: absolute;
+            left: -40%;
+            top: 0;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(120deg, #ffffff75 40%, #c7d2fe33 100%);
+            opacity: 0.18;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .fancy-btn:hover, .fancy-btn:focus {
+            background: linear-gradient(90deg, #42538e 40%, #7e9fff 100%);
+            box-shadow: 0 4px 28px 0 rgba(89,100,224,0.16), 0 2px 10px #a0a5e777;
+            transform: translateY(-2px) scale(1.04);
+        }
+        .fancy-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px #a0a5e755;
+        }
+        .fancy-btn .btn-icon {
+            font-size: 1.22em;
+            filter: drop-shadow(0 1px 6px #6b8aff88);
+            transition: transform 0.18s cubic-bezier(.4,0,.2,1);
+        }
+        .fancy-btn:hover .btn-icon,
+        .fancy-btn:focus .btn-icon {
+            transform: translateX(-5px) scale(1.14) rotate(-10deg);
+        }
+        .card {
+            background: linear-gradient(110deg, #f3f6fd 80%, #e0e7ff 100%);
+            border-radius: 18px;
+            box-shadow: 0 2px 16px #b8b8ff22;
+            margin: 29px auto 16px auto;
+            padding: 28px 22px 23px 22px;
+            max-width: 400px;
+            text-align: left;
+        }
+        .card-title {
+            font-size: 1.22em;
+            color: #5964e0;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+        .cloud-emoji {
+            font-size: 1.4em;
+            vertical-align: -3px;
+        }
+        .quote-block {
+            margin-top: 34px;
+            margin-bottom: 8px;
+            font-style: italic;
+            color: #6d69b8;
+            border-left: 6px solid #bfc7fd;
+            padding: 13px 18px;
+            background: #f3f6fd;
+            border-radius: 13px;
+            box-shadow: 0 2px 10px #e0e7ff22;
+            font-size: 1.08em;
+        }
+        .footer {
+            text-align: center;
+            color: #a2a9c7;
+            font-size: 1em;
+            margin-top: 40px;
+            padding-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        @media (max-width: 600px) {
             .container {
-                padding: 12px 2vw 12px 2vw;
+                padding: 10px 2vw 16px 2vw;
                 max-width: 98vw;
             }
-            .back-btn {
+            .card {
+                padding: 16px 4vw 14px 4vw;
+            }
+            .fancy-btn {
                 width: 100%;
+                padding-left: 16px;
+                padding-right: 20px;
+                font-size: 1em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container fade-in" id="newpage-content">
-        <button class="back-btn" id="backToIndex">
+    <div class="container" id="newpage-content">
+        <button class="fancy-btn" id="backToIndex">
             <span class="btn-icon">←</span>
             Grįžti į pradžią
         </button>
         <h1>Naujas puslapis</h1>
         <div class="info-text">
-            <p>Sveikiname! Jūs esate naujame puslapyje.</p>
-            <p>Čia galite pridėti naują turinį ar informaciją.</p>
+            <p>Sveikiname! Jūs esate naujame, modernesniame puslapyje.</p>
+            <p>Čia galite pridėti savo idėjas ar turinį.</p>
         </div>
+        <div class="card">
+            <div class="card-title"><span class="cloud-emoji">☁️</span> Debesų idėja</div>
+            <div>
+                Debesų paslaugos suteikia lankstumą ir greitį. Naudok jas savo projektams ir pasieksi daugiau!
+            </div>
+        </div>
+        <blockquote class="quote-block" id="quote-block"></blockquote>
     </div>
+    <div class="footer">© 2025 Svetainės pavyzdys</div>
     <script>
+        // Citatos random
+        const quotes = [
+            "„Progresas prasideda nuo smalsumo ir pirmo žingsnio.“",
+            "„Nebijok klysti – bijok nebandyti.“",
+            "„Kasdien po žingsnį į priekį – ir debesys ne riba.“",
+            "„Kūrybiškumas – tai tiesiog sujungtos idėjos.“ – Steve Jobs",
+            "„Didžiausi atradimai laukia už komforto zonos.“"
+        ];
+        function randomQuote() {
+            return quotes[Math.floor(Math.random() * quotes.length)];
+        }
+        document.getElementById('quote-block').textContent = randomQuote();
+
+        // Atgal mygtukas su fade efektu
         document.getElementById('backToIndex').addEventListener('click', function() {
             const container = document.getElementById('newpage-content');
-            container.classList.remove('fade-in');
             container.style.opacity = "0";
             setTimeout(function(){
                 window.location.href = "index.html";
