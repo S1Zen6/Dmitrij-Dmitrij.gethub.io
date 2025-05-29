@@ -5,79 +5,7 @@
     <title>Pirmas įrašas</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            font-family: 'Segoe UI', Verdana, Geneva, Tahoma, sans-serif;
-            background: linear-gradient(135deg, #f3f3f3 0%, #e0e7ff 100%);
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 600px;
-            margin: 40px auto 0 auto;
-            background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
-            padding: 32px;
-        }
-        .datetime-container {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 1.5em;
-            font-size: 1.25em;
-            margin-bottom: 18px;
-        }
-        #date {
-            padding: 6px 18px;
-            border-radius: 24px;
-            background: #e0e7ff;
-            color: #2b2b2b;
-            cursor: pointer;
-            transition: background 0.2s;
-            border: none;
-            font-size: inherit;
-            outline: none;
-        }
-        #date:active, #date:focus {
-            background: #c7d2fe;
-        }
-        #clock {
-            color: #5964e0;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-        h1 {
-            color: #363c60;
-            margin-top: 0;
-            margin-bottom: 16px;
-            font-size: 2em;
-            text-align: center;
-        }
-        .image-container {
-            display: flex;
-            justify-content: center;
-            margin: 18px 0 12px 0;
-        }
-        .image-container img {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 2px 12px #b8b8ff44;
-        }
-        pre {
-            background: #282c34;
-            color: #eaf7ff;
-            border-radius: 8px;
-            padding: 16px;
-            overflow-x: auto;
-            font-size: 1.1em;
-            margin-top: 24px;
-            box-shadow: 0 4px 16px #2b2b2b10;
-        }
-        code.language-python {
-            font-family: 'Fira Mono', 'Consolas', monospace;
-        }
-        /* Date picker styles */
+        /* Paliekami tik labai specifiniai stiliai ar media queries */
         #datePicker {
             display: none;
             position: absolute;
@@ -102,6 +30,10 @@
             <input type="date" id="datePicker">
             <span id="clock"></span>
         </div>
+        <div class="today-section">
+            <span id="today-label">Šiandienos data:</span>
+            <span id="today-date"></span>
+        </div>
         <h1>Mano pirmasis įrašas!</h1>
         <div class="image-container">
             <img src="image/example.png" alt="Paveikslėlis">
@@ -112,8 +44,22 @@ def hello():
     print("Sveikas, pasauli!")
 </code>
         </pre>
+
+        <section class="cloud-section">
+            <h2><span class="cloud-emoji">☁️</span> Debesų kompiuterija</h2>
+            <p>
+                Debesų kompiuterija (angl. Cloud Computing) – tai internetinė paslauga, leidžianti naudotis programomis, laikyti duomenis ir vykdyti skaičiavimus nuotoliniuose serveriuose, o ne savo kompiuteryje. Tokiu būdu galima lengvai plėsti išteklius ir pasiekti informaciją iš bet kurio įrenginio.
+            </p>
+            <div class="cloud-img">
+                <img src="https://cdn-icons-png.flaticon.com/512/4144/4144727.png" alt="Debesies iliustracija" width="120" height="120" style="opacity:0.8;">
+            </div>
+        </section>
+        <blockquote class="quote-block" id="quote-block">
+            <span id="quote"></span>
+        </blockquote>
     </div>
     <script>
+        // Data ir laikrodis
         const dateSpan = document.getElementById('date');
         const datePicker = document.getElementById('datePicker');
         const clockSpan = document.getElementById('clock');
@@ -126,35 +72,22 @@ def hello():
                 day: '2-digit'
             });
         }
-
-        // Helper to pad numbers
         function pad(n) {
             return n < 10 ? '0' + n : '' + n;
         }
-
-        // Set initial date to today
         let selectedDate = new Date();
-
         function updateClockDate() {
-            // Show selected date
             dateSpan.textContent = formatDateLT(selectedDate);
-            // Show current time
             const now = new Date();
             const time = now.toLocaleTimeString('lt-LT');
             clockSpan.textContent = time;
         }
-
-        // Keep the clock ticking
         setInterval(updateClockDate, 1000);
-
-        // Show date picker when clicking date
         dateSpan.addEventListener('click', (e) => {
-            // Position datePicker under dateSpan
             const rect = dateSpan.getBoundingClientRect();
             datePicker.style.display = 'block';
             datePicker.style.left = rect.left + 'px';
             datePicker.style.top = (rect.bottom + window.scrollY + 2) + 'px';
-            // Set datePicker value to current selected date
             datePicker.value = [
                 selectedDate.getFullYear(),
                 pad(selectedDate.getMonth() + 1),
@@ -162,15 +95,11 @@ def hello():
             ].join('-');
             datePicker.focus();
         });
-
-        // Also allow keyboard access (enter/space)
         dateSpan.addEventListener('keydown', (e) => {
             if (e.key === "Enter" || e.key === " ") {
                 dateSpan.click();
             }
         });
-
-        // When date selected, update date
         datePicker.addEventListener('change', function() {
             if (this.value) {
                 const [year, month, day] = this.value.split('-');
@@ -179,13 +108,27 @@ def hello():
             }
             datePicker.style.display = 'none';
         });
-
-        // Hide date picker if focus out
         datePicker.addEventListener('blur', function() {
             setTimeout(() => datePicker.style.display = 'none', 150);
         });
 
-        // Initial render
+        // Šiandienos data (visada šiandien)
+        document.getElementById('today-date').textContent =
+            formatDateLT(new Date());
+
+        // Citatos apie technologijas/debesų kompiuteriją
+        const quotes = [
+            "„Debesų kompiuterija – tai ateities infrastruktūra šiandien.“",
+            "„Cloud is about how you do computing, not where you do computing.“ – Paul Maritz",
+            "„Technologijos pačios savaime nėra tikslas – jos įrankis mūsų sumanymams įgyvendinti.“",
+            "„Debesys atveria neribotas galimybes – viskas priklauso nuo mūsų vaizduotės.“",
+        ];
+        function randomQuote() {
+            return quotes[Math.floor(Math.random() * quotes.length)];
+        }
+        document.getElementById('quote').textContent = randomQuote();
+
+        // Pirmas atvaizdavimas
         updateClockDate();
     </script>
 </body>
