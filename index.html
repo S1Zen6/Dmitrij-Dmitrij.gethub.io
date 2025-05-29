@@ -25,9 +25,12 @@
             font-size: 1.02em;
             cursor: pointer;
             font-weight: 600;
-            margin-left: auto;
+            /* margin-left: auto; // Nebereikia! */
+            margin-bottom: 8px;
             box-shadow: 0 2px 8px #a0a5e733;
             transition: background 0.2s, transform 0.13s;
+            display: block;
+            text-align: left;
         }
         .goto-newpage-btn:hover, .goto-newpage-btn:focus {
             background: linear-gradient(90deg, #42538e 60%, #5964e0 100%);
@@ -36,14 +39,16 @@
         .main-header {
             display: flex;
             flex-direction: column;
+            align-items: flex-start; /* Visas turinys prie kairio krašto */
             gap: 10px;
         }
         @media (max-width: 700px) {
             .main-header {
                 gap: 4px;
+                align-items: flex-start;
             }
             .goto-newpage-btn {
-                width: 100%;
+                width: auto;
                 margin-left: 0;
                 margin-bottom: 6px;
             }
@@ -101,7 +106,7 @@ def hello():
             container.classList.add('fade-out');
             setTimeout(function() {
                 window.location.href = "new-page.html";
-            }, 650); // turi būti daugiau nei CSS transition laikas
+            }, 650);
         });
 
         // Data ir laikrodis
