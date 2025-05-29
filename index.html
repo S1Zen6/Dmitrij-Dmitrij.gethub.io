@@ -3,37 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Pirmas įrašas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Paliekami tik labai specifiniai stiliai ar media queries */
+        /* Tik labai specifiniai arba dinaminiai stiliai */
         #datePicker {
             display: none;
             position: absolute;
             z-index: 10;
-            left: 0;
-            top: 0;
-        }
-        @media (max-width: 700px) {
-            .container {
-                padding: 12px;
-            }
-            .datetime-container {
-                font-size: 1em;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="datetime-container">
-            <span id="date" tabindex="0" title="Pasirink datą"></span>
-            <input type="date" id="datePicker">
-            <span id="clock"></span>
-        </div>
-        <div class="today-section">
-            <span id="today-label">Šiandienos data:</span>
-            <span id="today-date"></span>
-        </div>
+        <header class="main-header">
+            <div class="today-section">
+                <span id="today-label">Šiandienos data:</span>
+                <span id="today-date"></span>
+            </div>
+            <div class="datetime-container">
+                <span id="date" tabindex="0" title="Pasirink datą"></span>
+                <input type="date" id="datePicker">
+                <span id="clock"></span>
+            </div>
+        </header>
+
         <h1>Mano pirmasis įrašas!</h1>
         <div class="image-container">
             <img src="image/example.png" alt="Paveikslėlis">
@@ -48,23 +42,28 @@ def hello():
         <section class="cloud-section">
             <h2><span class="cloud-emoji">☁️</span> Debesų kompiuterija</h2>
             <p>
-                Debesų kompiuterija (angl. Cloud Computing) – tai internetinė paslauga, leidžianti naudotis programomis, laikyti duomenis ir vykdyti skaičiavimus nuotoliniuose serveriuose, o ne savo kompiuteryje. Tokiu būdu galima lengvai plėsti išteklius ir pasiekti informaciją iš bet kurio įrenginio.
+                Debesų kompiuterija (<em>Cloud Computing</em>) – tai internetinė paslauga, leidžianti naudotis programomis, laikyti duomenis ir vykdyti skaičiavimus nuotoliniuose serveriuose. Tokiu būdu galima lengvai plėsti išteklius ir pasiekti informaciją iš bet kurio įrenginio.<br>
+                <b>Privalumai:</b> lankstumas, saugumas, ekonomiškumas, prieinamumas visur.<br>
+                <b>Naudojimo pavyzdžiai:</b> Google Drive, Microsoft Azure, Amazon Web Services.
             </p>
             <div class="cloud-img">
-                <img src="https://cdn-icons-png.flaticon.com/512/4144/4144727.png" alt="Debesies iliustracija" width="120" height="120" style="opacity:0.8;">
+                <img src="https://cdn-icons-png.flaticon.com/512/4144/4144727.png" alt="Debesies iliustracija" width="110" height="110">
             </div>
         </section>
         <blockquote class="quote-block" id="quote-block">
             <span id="quote"></span>
         </blockquote>
     </div>
+    <footer class="main-footer">
+        <span>© <span id="footer-year"></span> Debesų kompiuterijos pavyzdys</span>
+    </footer>
     <script>
         // Data ir laikrodis
         const dateSpan = document.getElementById('date');
         const datePicker = document.getElementById('datePicker');
         const clockSpan = document.getElementById('clock');
 
-        // Helper to format date (YYYY-MM-DD to LT format)
+        // Datų formatavimas (YYYY-MM-DD -> LT)
         function formatDateLT(dateObj) {
             return dateObj.toLocaleDateString('lt-LT', {
                 year: 'numeric',
@@ -75,11 +74,13 @@ def hello():
         function pad(n) {
             return n < 10 ? '0' + n : '' + n;
         }
+
+        // Datos pasirinkėjas (keičiasi tik šalia laikrodžio)
         let selectedDate = new Date();
         function updateClockDate() {
             dateSpan.textContent = formatDateLT(selectedDate);
             const now = new Date();
-            const time = now.toLocaleTimeString('lt-LT');
+            const time = now.toLocaleTimeString('lt-LT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             clockSpan.textContent = time;
         }
         setInterval(updateClockDate, 1000);
@@ -112,23 +113,27 @@ def hello():
             setTimeout(() => datePicker.style.display = 'none', 150);
         });
 
-        // Šiandienos data (visada šiandien)
-        document.getElementById('today-date').textContent =
-            formatDateLT(new Date());
+        // Šiandienos data (rodo tik vieną kartą – nekinta!)
+        const today = new Date();
+        document.getElementById('today-date').textContent = formatDateLT(today);
 
-        // Citatos apie technologijas/debesų kompiuteriją
+        // Citatos
         const quotes = [
             "„Debesų kompiuterija – tai ateities infrastruktūra šiandien.“",
             "„Cloud is about how you do computing, not where you do computing.“ – Paul Maritz",
             "„Technologijos pačios savaime nėra tikslas – jos įrankis mūsų sumanymams įgyvendinti.“",
             "„Debesys atveria neribotas galimybes – viskas priklauso nuo mūsų vaizduotės.“",
+            "„Didžiausi pasiekimai prasideda nuo mažų žingsnių debesyje.“"
         ];
         function randomQuote() {
             return quotes[Math.floor(Math.random() * quotes.length)];
         }
         document.getElementById('quote').textContent = randomQuote();
 
-        // Pirmas atvaizdavimas
+        // Footer metai
+        document.getElementById('footer-year').textContent = today.getFullYear();
+
+        // Pradinis atvaizdavimas
         updateClockDate();
     </script>
 </body>
