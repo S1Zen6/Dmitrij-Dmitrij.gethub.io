@@ -6,102 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
     <style>
-        #datePicker {
-            display: none;
-            position: absolute;
-            z-index: 10;
+        body {
+            margin: 0;
+            padding: 0;
         }
-        .fade-out {
-            opacity: 0;
-            transition: opacity 0.6s cubic-bezier(.4,0,.2,1);
+        nav {
+            background: linear-gradient(90deg, #5964e0 60%, #7e9fff 100%);
+            box-shadow: 0 2px 12px #b8b8ff22;
         }
-        .goto-newpage-btn {
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0 0 0 12px;
             display: flex;
+            gap: 18px;
+            height: 56px;
             align-items: center;
-            gap: 12px;
-            background: linear-gradient(90deg, rgba(89,100,224,0.87) 60%, rgba(126,159,255,0.92) 100%);
-            color: #fff;
-            border: none;
-            border-radius: 32px;
-            padding: 13px 34px 13px 24px;
-            font-size: 1.10em;
-            cursor: pointer;
-            font-weight: 600;
-            margin-bottom: 16px;
-            margin-top: 3px;
-            box-shadow: 0 8px 32px 0 rgba(89,100,224,0.12), 0 2px 8px #a0a5e733;
-            transition: 
-                background 0.22s cubic-bezier(.4,0,.2,1),
-                box-shadow 0.18s cubic-bezier(.4,0,.2,1),
-                transform 0.11s cubic-bezier(.4,0,.2,1);
-            text-align: left;
-            outline: none;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            border: 1.5px solid #e0e7ff55;
-            letter-spacing: 0.04em;
-            position: relative;
-            overflow: hidden;
         }
-        .goto-newpage-btn:before {
-            content: '';
-            position: absolute;
-            left: -40%;
-            top: 0;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(120deg, #ffffff55 40%, #c7d2fe33 100%);
-            opacity: 0.18;
-            z-index: 0;
-            pointer-events: none;
-        }
-        .goto-newpage-btn:hover, .goto-newpage-btn:focus {
-            background: linear-gradient(90deg, #42538e 50%, #5964e0 100%);
-            box-shadow: 0 6px 28px 0 rgba(89,100,224,0.20), 0 2px 10px #a0a5e777;
-            transform: translateY(-2px) scale(1.04);
-        }
-        .goto-newpage-btn:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 10px #a0a5e755;
-        }
-        .goto-newpage-btn .btn-icon {
+        nav li {
             display: inline-block;
-            margin-left: 3px;
-            font-size: 1.24em;
-            filter: drop-shadow(0 1px 6px #6b8aff88);
-            transition: transform 0.18s cubic-bezier(.4,0,.2,1);
         }
-        .goto-newpage-btn:hover .btn-icon,
-        .goto-newpage-btn:focus .btn-icon {
-            transform: translateX(6px) scale(1.16) rotate(10deg);
+        nav a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.11em;
+            letter-spacing: 0.02em;
+            padding: 10px 20px;
+            border-radius: 18px;
+            transition: background 0.18s, color 0.16s;
         }
-        .main-header {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
+        nav a.active, nav a:hover, nav a:focus {
+            background: #fff;
+            color: #5964e0;
+        }
+        .container {
+            margin-top: 32px;
         }
         @media (max-width: 700px) {
-            .main-header {
+            nav ul {
+                flex-direction: column;
                 gap: 4px;
-                align-items: flex-start;
+                padding: 6px 0 6px 0;
+                height: auto;
             }
-            .goto-newpage-btn {
-                width: 100%;
-                padding-left: 14px;
-                padding-right: 22px;
-                font-size: 1.05em;
-            }
+            nav a { font-size: 1em; padding: 9px 14px; }
+            .container { margin-top: 16px; }
         }
     </style>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Pagrindinis</a></li>
+            <li><a href="new page.html">Naujas puslapis</a></li>
+            <li><a href="apie.html">Apie projektą</a></li>
+        </ul>
+    </nav>
     <div class="container" id="main-content">
         <header class="main-header">
-            <button class="goto-newpage-btn" id="gotoNewPage">
-                Eiti į naują puslapį
-                <span class="btn-icon">→</span>
-            </button>
             <div class="today-section">
                 <span id="today-label">Šiandienos data:</span>
                 <span id="today-date"></span>
@@ -143,15 +107,6 @@ def hello():
         <span>© <span id="footer-year"></span> Debesų kompiuterijos pavyzdys</span>
     </footer>
     <script>
-        // Puslapio perėjimo (fade) funkcija
-        document.getElementById('gotoNewPage').addEventListener('click', function() {
-            const container = document.getElementById('main-content');
-            container.classList.add('fade-out');
-            setTimeout(function() {
-                window.location.href = "new page.html";
-            }, 650);
-        });
-
         // Data ir laikrodis
         const dateSpan = document.getElementById('date');
         const datePicker = document.getElementById('datePicker');
